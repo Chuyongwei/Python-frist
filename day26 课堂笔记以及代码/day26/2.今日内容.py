@@ -31,3 +31,14 @@
         # delter(自选是否要了解)
     # classmethod
     # staticmethod
+# 反射
+    # hasattr
+    # getattr
+    # 几种情况
+        # 反射模块中的内容
+        # 反射本文件中的内容
+        # 反射对象的属性或者绑定方法
+        # 反射类的静态变量
+    # callable
+    # 实际的例子 - 归一化设计的
+
