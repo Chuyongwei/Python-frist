@@ -1,7 +1,7 @@
 import sys
 import pickle
-USERINFO = r'D:\python_22\é€‰è¯¾ç³»ç»Ÿ\userinfo'
-STUINFO = r'D:\python_22\é€‰è¯¾ç³»ç»Ÿ\stuinfo'
+USERINFO = r'D:\python_22\Ñ¡¿ÎÏµÍ³\userinfo'
+STUINFO = r'D:\python_22\Ñ¡¿ÎÏµÍ³\stuinfo'
 
 class Course(object):
 
@@ -11,8 +11,8 @@ class Course(object):
         self.period = period
 
 class Student(object):
-    opt_lst = [('æŸ¥çœ‹è¯¾ç¨‹', 'show_courses'),('é€‰æ‹©è¯¾ç¨‹','choose_course'),
-               ('æŸ¥çœ‹å·²é€‰è¯¾ç¨‹', 'show_selected'), ('é€€å‡º', 'exit')]
+    opt_lst = [('²é¿´¿Î³Ì', 'show_courses'),('Ñ¡Ôñ¿Î³Ì','choose_course'),
+               ('²é¿´ÒÑÑ¡¿Î³Ì', 'show_selected'), ('ÍË³ö', 'exit')]
     def __init__(self,name):
         self.name = name
         self.courses = []
@@ -34,12 +34,14 @@ class Student(object):
                     obj = pickle.load(f)
                     if obj.name == ret[0]:
                         return obj
-                except EOFError:print('æ²¡æœ‰è¿™ä¸ªå­¦ç”Ÿ,å‡ºç°äº†ä¸å¯æ€è®®çš„é”™è¯¯!')
-
+                except EOFError:
+                    print('Ã»ÓĞÕâ¸öÑ§Éú,³öÏÖÁË²»¿ÉË¼ÒéµÄ´íÎó!')
+                    break
+                
 class Manager(object):
-    opt_lst = [('åˆ›å»ºè¯¾ç¨‹','create_course'),('åˆ›å»ºå­¦ç”Ÿ','create_student'),
-               ('æŸ¥çœ‹è¯¾ç¨‹','show_courses'),('æŸ¥çœ‹å­¦ç”Ÿ','show_students'),
-               ('æŸ¥çœ‹å­¦ç”Ÿå’Œå·²é€‰è¯¾ç¨‹','show_stu_course'),('é€€å‡º','exit')]
+    opt_lst = [('´´½¨¿Î³Ì','create_course'),('´´½¨Ñ§Éú','create_student'),
+               ('²é¿´¿Î³Ì','show_courses'),('²é¿´Ñ§Éú','show_students'),
+               ('²é¿´Ñ§ÉúºÍÒÑÑ¡¿Î³Ì','show_stu_course'),('ÍË³ö','exit')]
     def __init__(self,name):
         self.name = name
     def create_course(self):
@@ -51,7 +53,7 @@ class Manager(object):
             f.write('%s|123456|Student\n'%(usr))
         with open(STUINFO,mode = 'ab') as f:
             pickle.dump(stu,f)
-        print('%så­¦ç”Ÿåˆ›å»ºæˆåŠŸ'%stu.name)
+        print('%sÑ§Éú´´½¨³É¹¦'%stu.name)
 
     def show_courses(self):
         pass
@@ -67,12 +69,12 @@ class Manager(object):
         obj = cls(ret[0])
         return obj
 
-# ç”¨æˆ· è¾“å…¥ç”¨æˆ·å å¯†ç  åˆ¤æ–­ç”¨æˆ·æ˜¯å¦åˆæ³•å’Œèº«ä»½æ˜¯å•¥?
+# ÓÃ»§ ÊäÈëÓÃ»§Ãû ÃÜÂë ÅĞ¶ÏÓÃ»§ÊÇ·ñºÏ·¨ºÍÉí·İÊÇÉ¶?
 def login():
     '''
 
-    :return: ç™»å½•æˆåŠŸ:ç”¨æˆ·å,èº«ä»½
-              ç™»å½•å¤±è´¥:False
+    :return: µÇÂ¼³É¹¦:ÓÃ»§Ãû,Éí·İ
+              µÇÂ¼Ê§°Ü:False
     '''
     username = input('username :')
     password = input('password :')
@@ -86,20 +88,20 @@ def login():
 
 ret = login()
 if ret:
-    print('ç™»å½•æˆåŠŸ,%s,æ¬¢è¿ä½¿ç”¨é€‰è¯¾ç³»ç»Ÿ'%ret[0])
+    print('µÇÂ¼³É¹¦,%s,»¶Ó­Ê¹ÓÃÑ¡¿ÎÏµÍ³'%ret[0])
     cls = getattr(sys.modules[__name__],ret[1])
     obj = cls.init(ret)
     for index,opt in enumerate(cls.opt_lst,1):
         print(index,opt[0])
-    num = int(input('æ‚¨è¦é€‰æ‹©çš„æ“ä½œ :').strip())
+    num = int(input('ÄúÒªÑ¡ÔñµÄ²Ù×÷ :').strip())
     if hasattr(obj,cls.opt_lst[num-1][1]):
         getattr(obj,cls.opt_lst[num-1][1])()
 else:
-    print('ç™»å½•å¤±è´¥')
+    print('µÇÂ¼Ê§°Ü')
 
 
-# åˆ›å»ºå­¦ç”Ÿ
-    # è®©ç”¨æˆ·è¾“å…¥ç”¨æˆ·å å¯†ç 
-    # å®ä¾‹åŒ–ä¸€ä¸ªå¯¹è±¡
-    # æŠŠç”¨æˆ·å å¯†ç  å†™åˆ°userinfo
-    # æŠŠå­¦ç”Ÿå¯¹è±¡å†™åˆ°stuinfoæ–‡ä»¶é‡Œ
+# ´´½¨Ñ§Éú
+    # ÈÃÓÃ»§ÊäÈëÓÃ»§Ãû ÃÜÂë
+    # ÊµÀı»¯Ò»¸ö¶ÔÏó
+    # °ÑÓÃ»§Ãû ÃÜÂë Ğ´µ½userinfo
+    # °ÑÑ§Éú¶ÔÏóĞ´µ½stuinfoÎÄ¼şÀï
